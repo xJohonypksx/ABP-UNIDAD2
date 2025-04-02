@@ -1,6 +1,4 @@
-
 @extends("layouts.app")
-
 @section("content")
     <div class="container-fluid py-5 bg-dark" style="min-height: 100vh;">
         <div class="row justify-content-center mb-4">
@@ -8,7 +6,6 @@
                 <h1 class="text-center text-white fw-bold">Listado de Pagos</h1>
             </div>
         </div>
-
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="rounded shadow-lg bg-gradient-to-b from-gray-800 to-gray-900 p-4">

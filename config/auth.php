@@ -61,15 +61,11 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'driver' => 'database', // Si deseas usar autenticación mediante la base de datos directamente
+            'table' => 'users', // Aquí indicamos la tabla donde gestionas los usuarios
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

@@ -7,6 +7,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('dobano_inicio', function () {
+    return view('dobano_inicio');
+});
+
+Route::get('/dobano_info', function () {
+    return view('dobano_info');
+})->middleware('auth')->name('dobano_info');
+
+Route::get('/empresa', function () {
+    return view('empresa');
+})->middleware('auth')->name('empresa');
+
+
+
 
 Route::resource('personas',App\Http\Controllers\PersonasController::class );
 Route::resource('clientes',App\Http\Controllers\ClientesController::class );
