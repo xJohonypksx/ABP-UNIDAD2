@@ -1,59 +1,66 @@
-<?php
+@extends("layouts.app")
 
-namespace App\Http\Controllers;
+@section("content")
+    <div class="container-fluid py-5 bg-white" style="min-height: 100vh;">
+        <h1 class="text-center fw-bold mb-4 text-primary">Dashboard de Administración</h1>
 
-use App\Models\Cliente;
-use App\Models\Producto;
-use App\Models\Venta;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+        <div class="row g-4">
+            <!-- Tarjetas de métricas -->
+            <div class="col-md-3">
+                <div class="card shadow-lg border-0 p-3 bg-warning text-white">
+                    <h6 class="text-light">Ventas Totales</h6>
+                    <h2 class="fw-bold">${{ number_format($totalVentas, 2) }}</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-lg border-0 p-3 bg-success text-white">
+                    <h6 class="text-light">Productos Totales</h6>
+                    <h2 class="fw-bold">{{ $totalProductos }}</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-lg border-0 p-3 bg-info text-white">
+                    <h6 class="text-light">Inventario Total</h6>
+                    <h2 class="fw-bold">{{ $totalInventarios }}</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-lg border-0 p-3 bg-danger text-white">
+                    <h6 class="text-light">Pagos Totales</h6>
+                    <h2 class="fw-bold">${{ number_format($totalPagos, 2) }}</h2>
+                </div>
+            </div>
+        </div>
 
-class DashboardController extends Controller
-{
-    public function index()
-    {
-        // Datos para tarjetas
-        $ventasHoy = Venta::whereDate('created_at', today())->sum('total');
-        $ventasAyer = Venta::whereDate('created_at', today()->subDay())->sum('total');
-        $variacionVentas = $ventasAyer != 0 ? round(($ventasHoy - $ventasAyer) / $ventasAyer * 100, 2) : 100;
+        <!-- Tabla de Ventas -->
+        <div class="row mt-5">
+            <div class="col-md-10 mx-auto">
+                <div class="card p-4 shadow-lg border-0">
+                    <h5 class="fw-bold text-center text-dark">Ventas Recientes</h5>
+                    <table class="table table-hover text-center">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>ID Venta</th>
+                            <th>Subtotal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($ventas as $venta)
+                            <tr>
+                                <td>{{ $venta->id_venta }}</td>
+                                <td class="text-success fw-bold">${{ number_format($venta->subtotal, 2) }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
-        return view('dashboard.index', [
-            // Tarjetas
-            'ventasHoy' => $ventasHoy,
-            'variacionVentas' => $variacionVentas,
-            'totalClientes' => Cliente::count(),
-            'clientesNuevos' => Cliente::whereDate('created_at', today())->count(),
-            'totalProductos' => Producto::count(),
-            'stockBajo' => Producto::where('stock_p', '<', 10)->count(),
-            'totalPedidos' => Venta::count(),
-            'pedidosPendientes' => Venta::where('estado', 'pendiente')->count(),
 
-            // Gráficos
-            'ventasMensuales' => Venta::selectRaw('
-                MONTH(created_at) as mes,
-                SUM(total) as total
-            ')
-                ->whereYear('created_at', now()->year)
-                ->groupBy('mes')
-                ->orderBy('mes')
-                ->get(),
 
-            // Tablas
-            'topProductos' => Producto::select('productos.*')
-                ->join('ventas', 'productos.id_producto', '=', 'ventas.id_producto')
-                ->selectRaw('SUM(ventas.cantidad) as unidades_vendidas')
-                ->groupBy('productos.id_producto')
-                ->orderByDesc('unidades_vendidas')
-                ->limit(5)
-                ->get(),
 
-            'ultimasVentas' => Venta::with(['cliente.persona', 'detalles'])
-                ->latest()
-                ->paginate(5),
 
-            'productosStockCritico' => Producto::where('stock_p', '<', 5)
-                ->orderBy('stock_p')
-                ->get()
-        ]);
-    }
-}
+
