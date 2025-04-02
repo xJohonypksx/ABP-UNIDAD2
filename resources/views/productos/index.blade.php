@@ -3,7 +3,7 @@
     <div class="container-fluid py-5 bg-dark" style="min-height: 100vh;">
         <div class="row justify-content-center mb-4">
             <div class="col-md-8">
-                <h1 class="text-center text-white fw-bold">Listado de Productos</h1>
+                <h1 class="text-center text-white fw-bold">Listadoo  de Productos</h1>
             </div>
         </div>
         <div class="row justify-content-center">
