@@ -18,7 +18,7 @@
                             <th class="fw-bold text-uppercase text-center" style="letter-spacing: 1px;">Apellido Materno</th>
                             <th class="fw-bold text-uppercase text-center" style="letter-spacing: 1px;">Teléfono</th>
                             <th class="fw-bold text-uppercase text-center" style="letter-spacing: 1px;">Dirección</th>
-                            <th class="fw-bold text-uppercase text-center" style="letter-spacing: 1px;">Correo</th>
+                            <th class="fw-bold text-uppercase text-center" style="letter-spacing: 1px;">Correoo</th>
                         </tr>
                         </thead>
                         <tbody class="bg-gray-800">
